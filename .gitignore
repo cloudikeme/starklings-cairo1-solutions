@@ -13,4 +13,4 @@ rust-project.json
 *.o
 solutions/
 **/runner-crate/src/lib.cairo
-.github/
+*.github
