@@ -2,15 +2,14 @@
 // Address all the TODOs to make the tests pass!
 // Execute `starklings hint enums3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// I AM DONE
 
 #[derive(Drop, Copy)]
 enum Message { // TODO: implement the message variant types based on their usage below
     ChangeColor: (u8, u8, u8),
-    Quit,
+    Quit: (),
     Echo: felt252,
-    Move,
-    Process,
+    Move: Point,
 }
 
 #[derive(Drop, Copy)]
@@ -54,13 +53,12 @@ impl StateImpl of StateTrait {
 
     fn process(
         ref self: State, message: Message
-    ) { // TODO: create a match expression to process the different message variants
+    ) { 
         match message {
-            Message::ChangeColor => change_color,
-            Message::Quit => quit,
-            Message::Echo => echo,
-            Message::Move => move_position,
-            Message::Process => process,
+            Message::ChangeColor(c) => self.change_color(c),
+            Message::Quit(()) => self.quit(),
+            Message::Echo(s) => self.echo(s),
+            Message::Move(p) => self.move_position(p),
         }
     }
 }
