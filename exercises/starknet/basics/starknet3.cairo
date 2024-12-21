@@ -5,7 +5,7 @@
 // only the owner to update the contract, they agree.
 // Can you help them write this contract?
 
-// I AM NOT DONE
+// I AM DONE
 
 use starknet::ContractAddress;
 
@@ -18,18 +18,16 @@ trait IProgressTracker<TContractState> {
 
 #[starknet::contract]
 mod ProgressTracker {
-    use starknet::ContractAddress;
-    use starknet::get_caller_address; // Required to use get_caller_address function
-    use storage::StoragePointerReadAccess;
-    use storage::StoragePointerWriteAccess;
-    use storage::StoragePathEntry;
-    use storage::Map;
+    use core::starknet::{ContractAddress, get_caller_address};
+    use core::starknet::storage::{
+        Map, StoragePathEntry, StoragePointerReadAccess, StoragePointerWriteAccess,
+    };
     
     #[storage]
     struct Storage {
         contract_owner: ContractAddress,
         // TODO: Set types for Map
-        progress: Map<>
+        progress: Map::<ContractAddress, u16>,
     }
 
     #[constructor]
@@ -42,11 +40,15 @@ mod ProgressTracker {
     impl ProgressTrackerImpl of super::IProgressTracker<ContractState> {
         fn set_progress(
             ref self: ContractState, user: ContractAddress, new_progress: u16
+
         ) { // TODO: assert owner is calling
-        // TODO: set new_progress for user,
+            assert(self.get_contract_owner() == get_caller_address(), 'Not owner');
+           // TODO: set new_progress for user,
+           self.progress.write(user, new_progress);
         }
 
         fn get_progress(self: @ContractState, user: ContractAddress) -> u16 { // Get user progress
+            self.progress.read(user)
         }
 
         fn get_contract_owner(self: @ContractState) -> ContractAddress {
