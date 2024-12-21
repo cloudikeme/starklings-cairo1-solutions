@@ -7,7 +7,7 @@
 // Make me compile and pass the test!
 // Execute `starklings hint dict3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// I AM DONE
 
 #[derive(Destruct)]
 struct Team {
