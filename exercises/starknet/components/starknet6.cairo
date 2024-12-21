@@ -13,6 +13,7 @@ trait IOwnable<TContractState> {
     fn set_owner(ref self: TContractState, new_owner: ContractAddress);
 }
 
+#[starknet::component]
 mod OwnableComponent {
     use starknet::ContractAddress;
     use super::IOwnable;
